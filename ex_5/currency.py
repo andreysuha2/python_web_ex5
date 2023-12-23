@@ -22,7 +22,7 @@ class Currency:
     
     async def get_currency(self, date: datetime = datetime.now(), currencies: list = [ "USD", "EUR" ]) -> dict:
         date_str = date.strftime("%d.%m.%Y")
-        lst = await self.get("p24api/exchange_rates", { "date": date_str, "currecy": "USD" })
+        lst = await self.get("p24api/exchange_rates", { "date": date_str })
         rates = [ { item["currency"]: { "sale": item["saleRate"], "purchase": item["purchaseRate"] } } for item in lst["exchangeRate"] if item["currency"] in currencies ]
         return { lst["date"]: rates }
         
