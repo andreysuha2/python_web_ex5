@@ -4,18 +4,21 @@ import asyncio
 import aiohttp
 
 class CurrencyUtil(Command):
-    async def run(self, days):
+    DEFAULT_CURRENCIES = [ "USD", "EUR" ]
+    
+    async def run(self, days, currencies):
         async with aiohttp.ClientSession() as session:
             currency = Currency(base_url='https://api.privatbank.ua', session=session)
-            result = await currency.get_currencies(days)
+            result = await currency.get_currencies(days, currencies)
             return result
             
     
     def execute(self, *args):
         days = int(args[0] if len(args) > 0 else 1)
+        currencies = args[1:]
         if days > 10:
             return 'Max days 10'
-        return asyncio.run(self.run(days))
+        return asyncio.run(self.run(days, [ *currencies, *self.DEFAULT_CURRENCIES ]))
     
 class Server(Command):
     def execute(self):
