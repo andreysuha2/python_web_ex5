@@ -42,3 +42,4 @@ poetry/core/*
 
 .env
 /node_modules
+/venv
